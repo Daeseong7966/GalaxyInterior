@@ -12,23 +12,37 @@ class QAcomponent extends React.Component{
     async componentDidMount(){
         await Font.loadAsync({
             'SCDream_M' : require('../assets/fonts/SCDream_M.otf'),
+            'SCDream_EB' : require('../assets/fonts/SCDream_EB.otf')
         });
         this.setState({fontLoad : true});
     }
 
     render(){
         if(this.state.fontLoad){
-            if(this.props.data.isLock){
+            if(this.props.QAdata.isLock){
                 return(
-                    <TouchableOpacity style = {styles.QAcomponent}>
-                        <Text>가나다라마바사</Text>
+                    <TouchableOpacity style = {[styles.BasicQAcomponent, this.props.QAdata.isAnswer ? styles.isAnswerTrue : styles.isAnswerFalse]} disabled = {true}>
+                        <View style = {styles.IconBox}>
+                            <FontAwesomeIcon name = "lock" size = {25} color = "black" />
+                        </View>
+                        <Text style = {styles.Text1}>비밀글입니다.</Text>
+
+                        <View style = {{flex : 1, flexDirection : "column", justifyContent : "center"}}>
+                            <Text style = {styles.Text2}>{this.props.QAdata.author}</Text>
+                        </View>
                     </TouchableOpacity>
                 );
             }else{
                 return(
-                    <TouchableOpacity style = {styles.QALockComponent} disabled = {true}>
-                        <FontAwesomeIcon name = "lock" size = {25} color = "black" />
-                        <Text style = {styles.LockText}>비밀글입니다.</Text>
+                    <TouchableOpacity style = {[styles.BasicQAcomponent, this.props.QAdata.isAnswer ? styles.isAnswerTrue : styles.isAnswerFalse]}>
+                        <View style = {styles.IconBox}>
+                            <Text style = {styles.QText}>Q</Text>
+                        </View>
+                        <Text style = {styles.Text1}>{this.props.QAdata.title.substring(0,10)}...</Text>
+
+                        <View style = {{flex : 1, flexDirection : "column", justifyContent : "center"}}>
+                            <Text style = {styles.Text2}>{this.props.QAdata.author}</Text>
+                        </View>
                     </TouchableOpacity>
                 );
             }
@@ -39,29 +53,43 @@ class QAcomponent extends React.Component{
 }
 
 const styles = StyleSheet.create({
-    QAcomponent : {
+    BasicQAcomponent : {
         width : "90%",
         height : 60,
-        backgroundColor : "white",
         borderRadius : 4,
         borderWidth : 1,
-        borderColor : "#FAE6A8",
-    },
-    QALockComponent : {
-        width : "90%",
-        height : 60,
-        backgroundColor : "white",
-        borderRadius : 4,
-        borderWidth : 1,
-        borderColor : "#FAE6A8",
+        flexDirection : "row",
         alignItems : "center",
-        paddingLeft : 20,
-        flexDirection : "row"
+        marginTop : 10
     },
-    LockText : {
+    isAnswerTrue : {
+        borderColor : "#B6DAF7",
+        backgroundColor : "#EEF5FB"
+    },
+    isAnswerFalse : {
+        borderColor : "#FAB6B6",
+        backgroundColor : "#F9E3DB"
+    },
+    IconBox : {
+        width : "15%",
+        height : "100%",
+        alignItems : "center",
+        justifyContent : "center"
+    },
+    Text1 : {
         fontSize : 25,
         fontFamily : "SCDream_M",
-        marginLeft : 10
+    },
+    Text2 : {
+        fontSize : 15,
+        fontFamily : "SCDream_M",
+        position : "absolute",
+        right : 0,
+        marginRight : 10
+    },
+    QText : {
+        fontFamily : "SCDream_EB", 
+        fontSize : 45,
     }
 })
 
