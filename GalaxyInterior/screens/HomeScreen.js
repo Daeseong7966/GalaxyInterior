@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-nati
 import AntIcon from 'react-native-vector-icons/AntDesign';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import * as Font from 'expo-font';
+import { DotIndicator } from 'react-native-indicators';
 
 class HomeScreen extends React.Component{
     state = {
@@ -57,7 +58,7 @@ class HomeScreen extends React.Component{
                 </View>
             );
         }else{
-            return <View><Text>Loading...</Text></View>
+            return <View style = {{flex : 1,justifyContent : "center", alignItems : "center", backgroundColor : "white"}}><DotIndicator color = "#7B7B7B"/></View>
         }
     }
 }

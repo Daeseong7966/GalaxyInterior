@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, Clipboard } from 'reac
 import MaterialCMIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import * as Font from 'expo-font';
+import { DotIndicator } from 'react-native-indicators';
 
 class InfoScreen extends React.Component{
     state = {
@@ -60,7 +61,7 @@ class InfoScreen extends React.Component{
                 </View>
             );
         }else{
-            return <View style = {{flex : 1,justifyContent : "center", alignItems : "center", backgroundColor : "#DBEBF9"}}><Text style = {{fontSize : 50}}>Loading...</Text></View>
+            return <View style = {{flex : 1,justifyContent : "center", alignItems : "center", backgroundColor : "#DBEBF9"}}><DotIndicator color = "#7B7B7B"/></View>
         }
     }
 }
