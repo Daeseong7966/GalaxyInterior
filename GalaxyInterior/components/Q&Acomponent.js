@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         borderWidth : 1,
         flexDirection : "row",
         alignItems : "center",
-        marginTop : 10
+        marginBottom : 10
     },
     isAnswerTrue : {
         borderColor : "#B6DAF7",

@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Alert, TouchableOpacity, StatusBar, TextInput } from 'react-native';
+import { View, Text, StyleSheet, Alert, TouchableOpacity, StatusBar, TextInput, ScrollView } from 'react-native';
 import axios from 'axios';
 import QAcomponent from '../components/Q&Acomponent';
 import MaterialCMIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { DotIndicator } from 'react-native-indicators';
+import Modal from 'react-native-modal';
+import AddQaModal from '../modals/AddQAmodal';
 import * as Font from 'expo-font';
 
 class QAScreen extends React.Component{
@@ -13,7 +15,9 @@ class QAScreen extends React.Component{
         SearchTitle : true, //true = 제목, false = 작성자
         FilterKeyword : "",
         isLockFilter : false, //잠금이 되어있는지 안되어있는지 체크하는 필터
-        fontLoad : false,
+        fontLoad : false, //폰트가 성공적으로 불러왔는지 확인하는 필터
+        isData : false, //데이터가 성공적으로 불러왔는지 안불러져왔는지 확인하는 필터,
+        isAddQaVisible : false //글쓰기 모달 체크 필터
     }
 
     async componentDidMount(){
@@ -30,11 +34,13 @@ class QAScreen extends React.Component{
             console.log(response.data);
             this.setState({
                 QAdata : response.data,
-                FilterKeyword : ""
+                FilterKeyword : "",
+                isData : true
             });
         })
         .catch((error) => {
-            Alert.alert("알림", "Q&A를 불러오는데 실패했습니다.");
+            // Alert.alert("알림", "Q&A를 불러오는데 실패했습니다.");
+            this.setState({isData : false})
         });
     }
 
@@ -44,6 +50,10 @@ class QAScreen extends React.Component{
 
     toggleisLockFilter(){
         this.setState({isLockFilter : !this.state.isLockFilter});
+    }
+
+    toggleisAddQaVisible(){
+        this.setState({isAddQaVisible : !this.state.isAddQaVisible});
     }
 
     render(){
@@ -88,15 +98,32 @@ class QAScreen extends React.Component{
                                 }
                             </TouchableOpacity>
                         </View>
+
+                        <TouchableOpacity onPress = {() => this.toggleisLockFilter()} style = {styles.isLockFilter}>
+                            <FontAwesome5Icon name = "check" size = {15} color = {this.state.isLockFilter ? "#1C5AF5" : "#7B7B7B"} />
+                            <Text style = {[styles.FilterFont, this.state.isLockFilter ? styles.TrueFilterFont : styles.FalseFilterFont]}>비밀글 제외</Text>
+                        </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity onPress = {() => this.toggleisLockFilter()} style = {{flexDirection : "row", alignItems : "center", alignSelf : "flex-start", marginLeft : "5%"}}>
-                        <FontAwesome5Icon name = "check" size = {15} color = {this.state.isLockFilter ? "#1C5AF5" : "#7B7B7B"} />
-                        <Text style = {[styles.FilterFont, this.state.isLockFilter ? styles.TrueFilterFont : styles.FalseFilterFont]}>비밀글 제외</Text>
-                    </TouchableOpacity>
-                    {
-                        this.state.QAdata ? filteredComponents(this.state.QAdata) : null
-                    }
+                    <View style = {styles.MainContainer}>
+                        <ScrollView contentContainerStyle = {{flexGrow : 1, width : "100%"}} showsVerticalScrollIndicator = {false}>
+                        {
+                            this.state.isData ? filteredComponents(this.state.QAdata) : <View style = {{flex : 1}}><DotIndicator color = "#7B7B7B"/></View>
+                        }
+                        </ScrollView>
+                    </View>
+
+                    <View style = {styles.BottomContainer}>
+                        <TouchableOpacity style = {styles.AddQABtn} onPress = {() => this.toggleisAddQaVisible()}>
+                            <FontAwesome5Icon name = "pencil-alt" size = {15} color = "black" />
+                            <Text style = {{fontFamily : "SCDream_M", marginLeft : 5}}>작성하기</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <Modal isVisible = {this.state.isAddQaVisible}>
+                        <AddQaModal />
+                    </Modal>
+                    
                 </View>
             );
         }else{
@@ -115,10 +142,17 @@ const styles = StyleSheet.create({
     },
     TopContainer : {
         width : "100%",
-        height : "10%",
         marginTop : statusSize,
         alignItems : "center",
-        justifyContent : "center"
+        justifyContent : "center",
+        flex : 1.5,
+    },
+    isLockFilter : {
+        flexDirection : "row", 
+        alignItems : "center", 
+        alignSelf : "flex-start", 
+        marginLeft : "5%",
+        marginTop : 10
     },
     AddBtn : {
         position : "absolute",
@@ -149,6 +183,28 @@ const styles = StyleSheet.create({
     },
     FalseFilterFont : {
         color : "#7B7B7B"
+    },
+    AddQABtn : {
+        width : "30%",
+        height : 50,
+        alignSelf : "flex-end",
+        marginRight : "5%",
+        borderRadius : 4,
+        borderWidth : 3,
+        borderColor : "black",
+        justifyContent : "center",
+        alignItems : "center",
+        marginTop : 10,
+        flexDirection : "row"
+    },
+    BottomContainer : {
+        flex : 1.5,
+        width : "100%",
+    },
+    MainContainer : {
+        flex : 7,
+        width : "100%",
+        alignItems : "center"
     }
 })
 
