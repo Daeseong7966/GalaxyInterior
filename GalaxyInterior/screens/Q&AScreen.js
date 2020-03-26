@@ -17,7 +17,7 @@ class QAScreen extends React.Component{
         isLockFilter : false, //잠금이 되어있는지 안되어있는지 체크하는 필터
         fontLoad : false, //폰트가 성공적으로 불러왔는지 확인하는 필터
         isData : false, //데이터가 성공적으로 불러왔는지 안불러져왔는지 확인하는 필터,
-        isAddQaVisible : false //글쓰기 모달 체크 필터
+        isAddQaVisible : false, //글쓰기 모달 체크 필터,
     }
 
     async componentDidMount(){
@@ -66,7 +66,7 @@ class QAScreen extends React.Component{
                         return qadata.author.indexOf(this.state.FilterKeyword) > -1; //비밀글이 아닐 때 작성자로 검색하면 결과값 전달
                     }
                 });
-                return data.map((qadata) => {
+                return data.reverse().map((qadata) => {
                     return <QAcomponent QAdata = {qadata} key = {qadata.id} />
                 })
             }else{
@@ -77,7 +77,7 @@ class QAScreen extends React.Component{
                         return !qadata.isLock && qadata.author.indexOf(this.state.FilterKeyword) > -1; //비밀글이 아니고, 작성자 검색
                     }
                 });
-                return data.map((qadata) => {
+                return data.reverse().map((qadata) => {
                     return <QAcomponent QAdata = {qadata} key = {qadata.id} />
                 })
             }
@@ -121,7 +121,7 @@ class QAScreen extends React.Component{
                     </View>
 
                     <Modal isVisible = {this.state.isAddQaVisible}>
-                        <AddQaModal />
+                        <AddQaModal toggleisAddQaVisible  = {() => this.toggleisAddQaVisible()} fetchQA = {() => this.fetchQA()} />
                     </Modal>
                     
                 </View>
