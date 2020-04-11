@@ -42,6 +42,9 @@ class AddQaModal extends React.Component{
                 this.props.fetchQA();
             }
         })
+        .catch((error) => {
+            console.log(error);
+        })
     }
 
     render(){

@@ -67,7 +67,7 @@ class QAScreen extends React.Component{
                     }
                 });
                 return data.reverse().map((qadata) => {
-                    return <QAcomponent QAdata = {qadata} key = {qadata.id} />
+                    return <QAcomponent fetchQA = {() => this.fetchQA()} QAdata = {qadata} key = {qadata.id} />
                 })
             }else{
                 data = data.filter((qadata) => {
@@ -78,7 +78,7 @@ class QAScreen extends React.Component{
                     }
                 });
                 return data.reverse().map((qadata) => {
-                    return <QAcomponent QAdata = {qadata} key = {qadata.id} />
+                    return <QAcomponent fetchQA = {() => this.fetchQA()} QAdata = {qadata} key = {qadata.id} />
                 })
             }
         }

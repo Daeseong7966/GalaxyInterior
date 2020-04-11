@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, Clipboard } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, Clipboard, Alert } from 'react-native';
 import MaterialCMIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import * as Font from 'expo-font';
@@ -23,7 +23,7 @@ class InfoScreen extends React.Component{
 
     writeToClipboard = async (Text) => {
         await Clipboard.setString(Text);
-        alert("클립보드에 복사되었습니다.");
+        Alert.alert("안내","클립보드에 복사되었습니다.");
     }
 
     render(){

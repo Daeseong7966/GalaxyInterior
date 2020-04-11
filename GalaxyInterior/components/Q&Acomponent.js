@@ -44,7 +44,7 @@ class QAcomponent extends React.Component{
                             </View>
                         </TouchableOpacity>
                         {
-                            this.state.InfoOpen ? <QAinfocomponent QAdata = {this.props.QAdata} /> : null
+                            this.state.InfoOpen ? <QAinfocomponent fetchQA = {() => this.props.fetchQA()} QAdata = {this.props.QAdata} /> : null
                         }
                     </View>
                 );
@@ -64,7 +64,7 @@ class QAcomponent extends React.Component{
                             </View>
                         </TouchableOpacity>
                         {
-                            this.state.InfoOpen ? <QAinfocomponent QAdata = {this.props.QAdata} /> : null
+                            this.state.InfoOpen ? <QAinfocomponent fetchQA = {() => this.props.fetchQA()} QAdata = {this.props.QAdata} /> : null
                         }
                     </View>
                 );
